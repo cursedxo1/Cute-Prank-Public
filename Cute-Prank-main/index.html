@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just One Thing</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffe6f0, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Playfair Display', serif;
+  overflow: hidden;
+  transition: background 1.2s ease;
+}
+
+body.romantic {
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+}
+
+.card {
+  text-align: center;
+  padding: 30px;
+  max-width: 90%;
+  animation: slideFade 0.7s ease forwards;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #444;
+}
+
+button {
+  margin-top: 26px;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 30px;
+  background: #ff8fb1;
+  color: white;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255,143,177,0.4);
+}
+
+.lyric {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #555;
+  min-height: 1.6em;
+}
+
+.final {
+  animation: pop 0.9s ease forwards;
+}
+
+.glow {
+  color: white;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 25px rgba(255,182,193,0.9);
+}
+
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes slideFade {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="content"></div>
+
+<audio id="song" preload="auto">
+  <source src="bargad.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const content = document.getElementById("content");
+const song = document.getElementById("song");
+
+/* ---------- PAGES ---------- */
+
+function page0() {
+  content.innerHTML = `
+    <h1>Oii bolod 👀<br>ami akta khota bolte chai</h1>
+    <button onclick="page1()">shono na 🙈</button>
+  `;
+}
+
+function page1() {
+  content.innerHTML = `
+    <h1>Onek din theke<br>bolar chhilo 😶‍🌫️</h1>
+    <button onclick="page2()">aage jao 🫶</button>
+  `;
+}
+
+function page2() {
+  content.innerHTML = `
+    <h1>Ajke bolchii…<br>eibar shunbe 😌</h1>
+    <button onclick="startSong()">listen 🎧</button>
+  `;
+}
+
+function page3() {
+  content.innerHTML = `
+    <h1>🌸</h1>
+    <div id="lyric" class="lyric"></div>
+  `;
+
+  const lyric = document.getElementById("lyric");
+
+  setTimeout(() => {
+    typeText(lyric, "Rani teri ek jhalak se main pagal");
+  }, 1000);
+
+  setTimeout(() => {
+    typeText(lyric, "Sametu teri khushboo ko choom ke chadar");
+  }, 5000);
+
+  setTimeout(() => {
+    content.innerHTML += `<button onclick="finalReveal()">seee 🙈</button>`;
+  }, 9000);
+}
+
+/* ---------- AUDIO ---------- */
+
+function startSong() {
+  song.currentTime = 0;   // 🔥 IMPORTANT FIX
+  song.play();
+  page3();
+}
+
+/* ---------- FINAL ---------- */
+
+function finalReveal() {
+  document.body.classList.add("romantic");
+
+  for (let i = 0; i < 12; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = "💗";
+    h.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }
+
+  content.innerHTML = `
+    <div class="final">
+      <img src="shinchan.gif" style="width:140px;margin-bottom:15px;border-radius:12px;">
+      <h1 class="glow">You Are butki 💗🎀</h1>
+    </div>
+  `;
+}
+
+/* ---------- UTILS ---------- */
+
+function typeText(el, text, speed = 55) {
+  el.textContent = "";
+  let i = 0;
+  const t = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) clearInterval(t);
+  }, speed);
+}
+
+/* START */
+page0();
+</script>
+
+</body>
+</html>
+
+
